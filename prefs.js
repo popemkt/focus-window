@@ -389,7 +389,7 @@ export default class FocusWindowPreferences extends ExtensionPreferences {
 
     // create preference pages
     const page = new Adw.PreferencesPage({
-      title: _('General'),
+      title: 'General',
       icon_name: 'dialog-information-symbolic',
     });
     window.add(page);
