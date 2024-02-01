@@ -179,6 +179,7 @@ const FocusWidget = GObject.registerClass(
         }));
 
       // make them choosable
+      this.applicationList ??= [];
       this.allApplications.forEach((a) => this.applicationList.append(a.name));
     }
 
@@ -384,6 +385,7 @@ export default class FocusWindowPreferences extends ExtensionPreferences {
 
     // get settings
     const extensionSettings = this.getSettings(SETTINGS_ID);
+    console.error(JSON.stringify(extensionSettings));
     const {getAllSettings, setSettings} = generateSettings(extensionSettings);
 
     // create preference pages
