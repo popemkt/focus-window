@@ -7,7 +7,6 @@ import GObject from "gi://GObject";
 
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-const APP_PATH= "/org/gnome/shell/extensions/focus-window";
 const SETTINGS_ID = "org.gnome.shell.extensions.focus-window";
 const SETTINGS_KEY = "app-settings";
 const SETTINGS_VARIANT = "aa{sv}";
@@ -100,7 +99,7 @@ function init() {}
 const FocusWidget = GObject.registerClass(
   {
     GTypeName: "FocusWidget",
-    Template:  `resource://${APP_PATH}/prefs.ui`,
+    Template: GLib.uri_resolve_relative(import.meta.url, './prefs.ui', GLib.UriFlags.NONE),
     InternalChildren: [
       "application_to_focus",
       "application_list",
@@ -179,7 +178,6 @@ const FocusWidget = GObject.registerClass(
         }));
 
       // make them choosable
-      this.applicationList ??= [];
       this.allApplications.forEach((a) => this.applicationList.append(a.name));
     }
 
