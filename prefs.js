@@ -5,7 +5,7 @@ import GLib from "gi://GLib";
 import Gio from "gi://Gio";
 import GObject from "gi://GObject";
 
-// import * as Me from './extension.js';
+import * as Me from './extension.js';
 import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 //
 const SETTINGS_ID = "org.gnome.shell.extensions.focus-window";
@@ -382,9 +382,10 @@ export default class FocusWindowPreferences extends ExtensionPreferences {
     // stores all focusWidgets
     const focusWidgets = [];
 
+    const test = Me.app_path;
     // get settings
     const extensionSettings = this.getSettings(SETTINGS_ID);
-    console.error(extensionSettings);
+    console.error(JSON.stringify(extensionSettings));
     // const {getAllSettings, setSettings} = generateSettings(extensionSettings);
 
     // create preference pages
