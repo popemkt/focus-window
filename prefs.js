@@ -6,7 +6,7 @@ import Gio from "gi://Gio";
 import GObject from "gi://GObject";
 
 // import * as Me from './extension.js';
-// import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
+import {ExtensionPreferences} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 //
 // const SETTINGS_ID = "org.gnome.shell.extensions.focus-window";
 // const SETTINGS_KEY = "app-settings";
