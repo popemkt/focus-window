@@ -91,5 +91,19 @@ Press Esc to cancel or Backspace to unbind the shortcut.</property>
         </child>
       </object>
     </child>
+    <child>
+      <object class="AdwActionRow">
+        <property name="title">Move to current Desktop</property>
+        <property name="subtitle">Toggle this on if you want to move the </property>
+        <property name="activatable-widget">move_to_current_desktop</property>
+        <child>
+          <object class="GtkSwitch" id="move_to_current_desktop">
+            <property name="valign">center</property>
+            <property name="active">true</property>
+            <signal name="notify::active" handler="onMoveToCurrentDesktopToggled" swapped="no" />
+          </object>
+        </child>
+      </object>
+    </child>
   </template>
 </interface>
