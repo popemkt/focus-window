@@ -1,9 +1,11 @@
 "use strict";
 
-const { Shell, Meta, Gio, GObject } = imports.gi;
-const Main = imports.ui.main;
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
+import Shell from "gi://Shell";
+import Meta from "gi://Meta";
+import Gio from "gi://Gio";
+import GObject from "gi://GObject";
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 const SETTINGS_ID = "org.gnome.shell.extensions.focus-window";
 const SETTINGS_KEY = "app-settings";
@@ -71,8 +73,9 @@ const KeyboardShortcuts = GObject.registerClass(
   }
 );
 
-class Extension {
-  constructor() {
+export default class FocusWindowExtensions extends Extension {
+  constructor(metadata) {
+    super(metadata);
     this.shortcuts = null;
     this.settingsListener = null;
     this.settings = null;
@@ -81,7 +84,7 @@ class Extension {
   enable() {
     this.shortcuts = new KeyboardShortcuts();
 
-    this.settings = ExtensionUtils.getSettings(SETTINGS_ID);
+    this.settings = this.getSettings(SETTINGS_ID);
 
     this.settingsListener = this.settings.connect(
       `changed::${SETTINGS_KEY}`,
@@ -158,25 +161,26 @@ class Extension {
               return appWindows[0].minimize();
             }
 
+            
             // Draw focus to the window if it is not already focused
             if (appWindows.length === 1) {
-              // Get the currently active workspace
               const appWindow = appWindows[0];
-              const activeWorkspace = global.workspace_manager.get_active_workspace();
-              const windowWorkspaceIndex = appWindow.get_workspace().index();
-              // If the window is not in the active workspace, move it
-              // Move the window to the active workspace
-              if (activeWorkspace.index() !== windowWorkspaceIndex){
-                appWindow.change_workspace(activeWorkspace);
+              if (setting.moveToCurrentDesktop){
+                // Get the currently active workspace
+                const activeWorkspace = global.workspace_manager.get_active_workspace();
+                const windowWorkspaceIndex = appWindow.get_workspace().index();
+                // If the window is not in the active workspace, move it
+                // Move the window to the active workspace
+                if (activeWorkspace.index() !== windowWorkspaceIndex){
+                  appWindow.change_workspace(activeWorkspace);
+                }
               }
-
+              
               return Main.activateWindow(appWindow);
             }
 
             return false;
           } catch (error) {
-            log("setting trigger failed: ");
-            log(error);
           }
         });
       }
@@ -194,5 +198,5 @@ class Extension {
 }
 
 function init() {
-  return new Extension();
+  return new FocusWindowExtensions();
 }
