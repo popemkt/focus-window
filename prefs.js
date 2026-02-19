@@ -106,6 +106,7 @@ const FocusWidget = GObject.registerClass(
       "title_to_match",
       "exact_title_match",
       "launch_application",
+      "move_to_current_desktop",
       "command_line_arguments",
       "keyboard_shortcut_row",
       "keyboard_shortcut",
@@ -123,6 +124,7 @@ const FocusWidget = GObject.registerClass(
         titleToMatch: "",
         exactTitleMatch: false,
         launchApplication: true,
+        moveToCurrentDesktop: true,
         commandLineArguments: "",
         keyboardShortcut: "",
       },
@@ -140,6 +142,7 @@ const FocusWidget = GObject.registerClass(
       this.titleToMatch = this._title_to_match;
       this.exactTitleMatch = this._exact_title_match;
       this.launchApplication = this._launch_application;
+      this.moveToCurrentDesktop = this._move_to_current_desktop;
       this.commandLineArguments = this._command_line_arguments;
       this.keyboardShortcutRow = this._keyboard_shortcut_row;
       this.keyboardShortcut = this._keyboard_shortcut;
@@ -162,6 +165,7 @@ const FocusWidget = GObject.registerClass(
       this.titleToMatch.set_text(this.settings.titleToMatch);
       this.exactTitleMatch.set_active(this.settings.exactTitleMatch);
       this.launchApplication.set_active(this.settings.launchApplication);
+      this.moveToCurrentDesktop.set_active(this.settings.moveToCurrentDesktop);
       this.commandLineArguments.set_text(this.settings.commandLineArguments);
       this.keyboardShortcut.set_accelerator(this.settings.keyboardShortcut);
     }
@@ -325,6 +329,14 @@ const FocusWidget = GObject.registerClass(
     onLaunchApplicationToggled(swtch) {
       const active = swtch.get_active();
       this.settings.launchApplication = !!active;
+      this.saveSettings();
+    }
+    
+    // saves launch application state
+    // bound by signal in UI
+    onMoveToCurrentDesktopToggled(swtch) {
+      const active = swtch.get_active();
+      this.settings.moveToCurrentDesktop = !!active;
       this.saveSettings();
     }
 
